@@ -18,6 +18,11 @@ class Categoria extends Model
         'nombre',
     ];
 
+
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
+    }
     /**
      * Agregar un producto a la categoría.
      *

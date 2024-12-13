@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Sochic - @yield('titulo')</title>
+        <script type="module" src="{{ asset('js/productos.js') }}"></script>
+        <script type="module" src="{{ asset('js/productosRender.js') }}"></script>
         <!-- vite se utiliza para incluir y compilar archivos CSS (o JavaScript) --> 
         @vite('resources/css/app.css') 
     </head>

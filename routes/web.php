@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\ProductosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,11 @@ use App\Http\Controllers\LogoutController;
 |
 */
 
-Route::get('/', function () {
-    return view('principal');
-});
+/* Route::get('/', function () {
+    return view('cliente.index');
+}); */
+
+
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register'); // para visitar en sitio web
 Route::post('/register', [RegisterController::class, 'store']); //envia datos al servidor formulario de registro
@@ -28,5 +31,7 @@ Route::post('/register', [RegisterController::class, 'store']); //envia datos al
 route::get('/login', [LoginController::class,'index'])->name('login');
 route::post('/login', [LoginController::class,'store']);
 route::post('/logout', [LogoutController::class,'store'])->name('logout');
+
+Route::get('/', [ProductosController::class, 'show'])->name('productos.categoria');
 
 route::get('/{user:username}', [PostController::class,'index'])->name('Posts.index');

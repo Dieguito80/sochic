@@ -15,7 +15,15 @@ class PostController extends Controller
 
     public function index(User $user)
     {
-        return view('dashboard',[
+        // Verificar si el usuario autenticado es un administrador
+        if (auth()->user()->tipo == 2) {
+            return view('admin.index', [
+                'user' => $user
+            ]);
+        }
+
+        // Si no es administrador, redirigir a la vista correspondiente
+        return view('cliente.index', [
             'user' => $user
         ]);
     }

@@ -21,6 +21,7 @@ class Producto extends Model
         'precio_mayorista',
         'imagen',
         'descripcion',
+        'categoria_id',
     ];
 
     public function categoria()

@@ -21,6 +21,7 @@ class CreateProductosTable extends Migration
             $table->decimal('precio_mayorista', 10, 2);
             $table->string('imagen')->nullable();
             $table->text('descripcion')->nullable();
+            $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

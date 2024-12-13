@@ -38,8 +38,8 @@ class RegisterController extends Controller
             'name' => $request->name,
             'username' =>$request->username, 
             'email' => $request->email,
-            'password' => Hash::make($request->password) // Hashea el password en token
-
+            'password' => Hash::make($request->password), // Hashea el password en token
+            'tipo' => 1
         ]);
 
         //Autenticar un usuario
