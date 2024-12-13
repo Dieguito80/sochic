@@ -12,7 +12,8 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Producto::all();
+        return view('admin.index', compact('productos'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ProductosController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.create');
     }
 
     /**
@@ -28,7 +29,14 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+        ]);
+
+        Producto::create($request->all());
+
+        return redirect()->route('admin.index');
     }
 
     /**
@@ -49,7 +57,8 @@ class ProductosController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        return view('admin.edit', compact('producto'));
     }
 
     /**
@@ -57,7 +66,15 @@ class ProductosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+        ]);
+
+        $producto = Producto::findOrFail($id);
+        $producto->update($request->all());
+
+        return redirect()->route('admin.index');
     }
 
     /**
@@ -65,6 +82,9 @@ class ProductosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        $producto->delete();
+
+        return redirect()->route('admin.index');
     }
 }
