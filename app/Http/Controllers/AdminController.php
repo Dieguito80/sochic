@@ -13,9 +13,9 @@ class AdminController extends Controller
     public function index()
     {
         $productos = Producto::all();
-
-    // Pasar los datos a la vista
-    return view('admin.index', compact('productos'));
+        // dd($productos);
+        // Pasar los datos a la vista
+        return view('admin.productos.index', compact('productos'));
     }
 
     /**

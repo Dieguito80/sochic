@@ -34,8 +34,12 @@ route::post('/login', [LoginController::class,'store']);
 route::post('/logout', [LogoutController::class,'store'])->name('logout');
 
 Route::get('/', [ProductosController::class, 'show'])->name('productos.categoria');
+Route::post('/ProductosEdit', [ProductosController::class, 'edit'])->name('productos.edit');
+Route::post('/', [ProductosController::class, 'show'])->name('productos.destroy');
+
+route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 route::get('/{user:username}', [PostController::class,'index'])->name('Posts.index');
 
-route::get('/admin', [AdminController::class,'index'])->name('admin');
+
 

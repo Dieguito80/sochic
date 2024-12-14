@@ -17,7 +17,7 @@ class PostController extends Controller
     {
         // Verificar si el usuario autenticado es un administrador
         if (auth()->user()->tipo == 2) {
-            return redirect()->route('admin');
+            return redirect()->route('admin.index');
             
         }
 
