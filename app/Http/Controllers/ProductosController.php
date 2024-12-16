@@ -12,8 +12,7 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
-        return view('admin.index', compact('productos'));
+        //
     }
 
     /**
@@ -21,7 +20,7 @@ class ProductosController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        return view('admin.productos.create');
     }
 
     /**
@@ -31,14 +30,27 @@ class ProductosController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric',
+            'precio_minorista' => 'required|numeric', // Precio para el público
+            'precio_mayorista' => 'required|numeric', // Precio para mayoristas
+            'cantidad_stock' => 'required|integer',
+            'imagen' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'descripcion' => 'required|string',
         ]);
-
-        Producto::create($request->all());
-
-        return redirect()->route('admin.index');
+    
+        $imagenPath = $request->imagen->store('productos', 'public');
+    
+        Producto::create([
+            'nombre' => $request->nombre,
+            'precio_minorista' => $request->precio_minorista,
+            'precio_mayorista' => $request->precio_mayorista,
+            'cantidad_stock' => $request->cantidad_stock,
+            'imagen' => $imagenPath,
+            'descripcion' => strip_tags($request->descripcion),
+        ]);
+    
+        return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
     }
-
+   
     /**
      * Display the specified resource.
      */
@@ -57,8 +69,7 @@ class ProductosController extends Controller
      */
     public function edit(string $id)
     {
-        $producto = Producto::findOrFail($id);
-        return view('admin.edit', compact('producto'));
+        //
     }
 
     /**
@@ -66,15 +77,7 @@ class ProductosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric',
-        ]);
-
-        $producto = Producto::findOrFail($id);
-        $producto->update($request->all());
-
-        return redirect()->route('admin.index');
+        //
     }
 
     /**
@@ -82,9 +85,6 @@ class ProductosController extends Controller
      */
     public function destroy(string $id)
     {
-        $producto = Producto::findOrFail($id);
-        $producto->delete();
-
-        return redirect()->route('admin.index');
+        //
     }
 }

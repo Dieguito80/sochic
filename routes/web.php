@@ -34,8 +34,13 @@ route::post('/login', [LoginController::class,'store']);
 route::post('/logout', [LogoutController::class,'store'])->name('logout');
 
 Route::get('/', [ProductosController::class, 'show'])->name('productos.categoria');
-Route::post('/ProductosEdit', [ProductosController::class, 'edit'])->name('productos.edit');
-Route::post('/', [ProductosController::class, 'show'])->name('productos.destroy');
+
+
+Route::get('/ProductosEdit', [ProductosController::class, 'edit'])->name('productos.edit');
+Route::delete('/', [ProductosController::class, 'destroy'])->name('productos.destroy');
+
+Route::get('/ProductoCreate', [ProductosController::class, 'create'])->name('productos.create');
+Route::post('/Producto', [ProductosController::class, 'store'])->name('productos.store');
 
 route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 

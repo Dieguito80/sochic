@@ -21,17 +21,18 @@ class CreateProductosTable extends Migration
             $table->decimal('precio_mayorista', 10, 2);
             $table->string('imagen')->nullable();
             $table->text('descripcion')->nullable();
-            $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
+            $table->foreignId('categoria_id')
+                ->constrained('categorias') // Assuming your categories table is named 'categorias'
+                ->onDelete('cascade')
+                ->default(1); // Assuming category with ID 1 exists
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('productos');
     }

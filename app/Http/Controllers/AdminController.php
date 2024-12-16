@@ -23,7 +23,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.productos.create'); 
     }
 
     /**
@@ -31,7 +31,27 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+            'cantidad' => 'required|integer',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'descripcion' => 'required|string',
+        ]);
+    
+        // Guardar la imagen (si se ha subido)
+        $imagePath = $request->file('imagen') ? $request->file('imagen')->store('productos', 'public') : null;
+    
+        // Crear el producto
+        Producto::create([
+            'nombre' => $request->nombre,
+            'precio' => $request->precio,
+            'cantidad' => $request->cantidad,
+            'imagen' => $imagePath,
+            'descripcion' => $request->descripcion,
+        ]);
+    
+        return redirect()->route('admin.productos.index')->with('success', 'Producto creado correctamente.');
     }
 
     /**
@@ -39,7 +59,7 @@ class AdminController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('admin.productos.show', compact('producto'));
     }
 
     /**
@@ -47,22 +67,32 @@ class AdminController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        return view('admin.productos.edit', compact('producto'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Producto $producto)
     {
-        //
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|numeric',
+        ]);
+
+        $producto->update($request->all()); 
+
+        return redirect()->route('admin.productos.index')->with('success', 'Producto actualizado correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Producto $producto)
     {
-        //
+        $producto->delete();
+
+        return redirect()->route('admin.productos.index')->with('success', 'Producto eliminado correctamente.');
     }
 }
