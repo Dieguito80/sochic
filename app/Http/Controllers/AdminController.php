@@ -31,27 +31,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric',
-            'cantidad' => 'required|integer',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'descripcion' => 'required|string',
-        ]);
-    
-        // Guardar la imagen (si se ha subido)
-        $imagePath = $request->file('imagen') ? $request->file('imagen')->store('productos', 'public') : null;
-    
-        // Crear el producto
-        Producto::create([
-            'nombre' => $request->nombre,
-            'precio' => $request->precio,
-            'cantidad' => $request->cantidad,
-            'imagen' => $imagePath,
-            'descripcion' => $request->descripcion,
-        ]);
-    
-        return redirect()->route('admin.productos.index')->with('success', 'Producto creado correctamente.');
+
     }
 
     /**

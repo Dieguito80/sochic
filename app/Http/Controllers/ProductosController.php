@@ -12,7 +12,10 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Producto::all();
+        // dd($productos);
+        // Pasar los datos a la vista
+        return view('admin.productos.index', compact('productos'));
     }
 
     /**
@@ -37,8 +40,8 @@ class ProductosController extends Controller
             'descripcion' => 'required|string',
         ]);
     
-        $imagenPath = $request->imagen->store('productos', 'public');
-    
+        // $imagenPath = $request->imagen->store('productos', 'public');
+        $imagenPath= '';
         Producto::create([
             'nombre' => $request->nombre,
             'precio_minorista' => $request->precio_minorista,
@@ -46,6 +49,7 @@ class ProductosController extends Controller
             'cantidad_stock' => $request->cantidad_stock,
             'imagen' => $imagenPath,
             'descripcion' => strip_tags($request->descripcion),
+            'categoria_id' => 1
         ]);
     
         return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
@@ -55,36 +59,91 @@ class ProductosController extends Controller
      * Display the specified resource.
      */
     // public function show(string $id)
-    public function show()
+    public function show(string $id)
     {
-        // Obtener los productos que pertenecen a la categoría especificada
-        // $productos = Producto::where('categoria_id', $id)->get();
-        $productos = Producto::all();
-        // Retornar la vista con los productos filtrados
-        return view('cliente.index', compact('productos'));
+        // Buscar el producto por su ID
+        $producto = Producto::findOrFail($id);
+    
+        // Retornar la vista con el producto específico
+        return view('cliente.show', compact('producto'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        // Buscar el producto por su ID
+        $producto = Producto::findOrFail($id);
+    
+        // Retornar la vista de edición con los datos del producto
+        return view('admin.productos.edit', compact('producto'));
     }
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validación de los datos
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'precio_minorista' => 'required|numeric',
+            'precio_mayorista' => 'required|numeric',
+            'cantidad_stock' => 'required|integer',
+            'imagen' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'descripcion' => 'required|string',
+        ]);
+
+        // Buscar el producto por su ID
+        $producto = Producto::findOrFail($id);
+
+        // Actualizar los datos del producto
+        $producto->nombre = $request->nombre;
+        $producto->precio_minorista = $request->precio_minorista;
+        $producto->precio_mayorista = $request->precio_mayorista;
+        $producto->cantidad_stock = $request->cantidad_stock;
+        $producto->descripcion = strip_tags($request->descripcion);
+
+        // Actualizar la imagen si se sube una nueva
+        if ($request->hasFile('imagen')) {
+            $imagenPath = $request->imagen->store('productos', 'public');
+            $producto->imagen = $imagenPath;
+        }
+
+        // Guardar los cambios
+        $producto->save();
+
+        // Redireccionar con mensaje de éxito
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        // Buscar el producto por su ID
+        $producto = Producto::findOrFail($id);
+
+        // Eliminar el producto
+        $producto->delete();
+
+        // Redireccionar con mensaje de éxito
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente');
+    }
+
+
+
+    public function showCliente()
+    {
+        // Obtener los productos que pertenecen a la categoría especificada
+        // $productos = Producto::where('categoria_id', $id)->get();
+        $productos = Producto::all();
+        // Retornar la vista con los productos filtrados
+        return view('cliente.index', compact('productos'));
     }
 }
