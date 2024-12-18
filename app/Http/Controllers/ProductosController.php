@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Categoria;
 use App\Models\Producto;
 
 use Illuminate\Http\Request;
@@ -13,9 +15,10 @@ class ProductosController extends Controller
     public function index()
     {
         $productos = Producto::all();
+        $categorias = Categoria::all();
         // dd($productos);
         // Pasar los datos a la vista
-        return view('admin.productos.index', compact('productos'));
+        return view('admin.productos.index', compact('productos', 'categorias'));
     }
 
     /**
@@ -23,7 +26,8 @@ class ProductosController extends Controller
      */
     public function create()
     {
-        return view('admin.productos.create');
+        $categorias = Categoria::all();
+        return view('admin.productos.create', compact('categorias'));
     }
 
     /**
@@ -76,9 +80,9 @@ class ProductosController extends Controller
     {
         // Buscar el producto por su ID
         $producto = Producto::findOrFail($id);
-    
+        $categorias = Categoria::all();
         // Retornar la vista de edición con los datos del producto
-        return view('admin.productos.edit', compact('producto'));
+        return view('admin.productos.edit', compact('producto', 'categorias'));
     }
     
 

@@ -11,6 +11,7 @@
             <tr class="text-left bg-gray-100">
                 <th class="py-2 px-4">ID</th>
                 <th class="py-2 px-4">Nombre</th>
+                <th class="py-2 px-4">Categoria</th>
                 <th class="py-2 px-4">Precio Minorista</th>
                 <th class="py-2 px-4">Precio Mayorista</th>
                 <th class="py-2 px-4">Cantidad_stock</th>
@@ -24,6 +25,7 @@
                 <tr class="border-b">
                     <td class="py-2 px-4">{{ $producto->id }}</td>
                     <td class="py-2 px-4">{{ $producto->nombre }}</td>
+                    <td class="py-2 px-4">{{ $producto->categoria->nombre }}</td>
                     <td class="py-2 px-4">{{ $producto->precio_minorista }}</td> 
                     <td class="py-2 px-4">{{ $producto->precio_mayorista }}</td> 
                     <td class="py-2 px-4">{{ $producto->cantidad_stock }}</td>

@@ -15,7 +15,22 @@
                     <h1 class="text-4xl font-black">                     
                         Sochic
                     </h1>
+                    @if(auth()->user()->tipo == 2)
+                        <!-- Botones de navegación -->
+                        <nav class="space-x-4">
+                            <!-- Botón para ir a Productos -->
+                            <a href="{{ route('productos.index') }}" 
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Productos
+                            </a>
 
+                            <!-- Botón para ir a Categorías -->
+                            <a href="{{ route('categorias.index') }}" 
+                            class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                Categorías
+                            </a>
+                        </nav>
+                    @endif
                     <!-- Autenticar si el usuario esta autenticado-->
                     @auth
                         <nav class="flex gap-4 items-center">

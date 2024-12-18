@@ -6,11 +6,22 @@
 
   <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
     @csrf
-    
+
     <div class="flex flex-col">
       <label for="nombre" class="text-sm font-medium mb-2">Nombre del Producto</label>
       <input type="text" name="nombre" id="nombre" required class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
     </div>
+
+    <div class="flex flex-col">
+      <label for="categoria_id" class="text-sm font-medium mb-2">Categoría</label>
+      <select name="categoria_id" id="categoria_id" required class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
+        <option value="" disabled selected>Seleccione una categoría</option>
+        @foreach ($categorias as $categoria)
+          <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+        @endforeach
+      </select>
+    </div>
+
 
     <div class="flex flex-col">
       <label for="precio_minorista" class="text-sm font-medium mb-2">precio_minorista</label>
