@@ -37,7 +37,7 @@
             <td class="border border-gray-300 px-4 py-2 text-center">
               <!-- Botón Editar -->
               <a href="{{ route('categorias.edit', $categoria->id) }}" 
-                 class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                 class="bg-yellow-500 text-white px-3 py-1 ml-3 rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
                 Editar
               </a>
               
@@ -47,7 +47,7 @@
                 @method('DELETE')
                 <button type="submit" 
                         onclick="return confirm('¿Estás seguro de eliminar esta categoría?')" 
-                        class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        class="bg-red-500 text-white px-3 py-1 ml-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
                   Eliminar
                 </button>
               </form>

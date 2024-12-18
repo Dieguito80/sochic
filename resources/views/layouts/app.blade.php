@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Sochic - @yield('titulo')</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
         <script type="module" src="{{ asset('js/productos.js') }}"></script>
         <script type="module" src="{{ asset('js/productosRender.js') }}"></script>
         <!-- vite se utiliza para incluir y compilar archivos CSS (o JavaScript) --> 
@@ -15,6 +16,7 @@
                     <h1 class="text-4xl font-black">                     
                         Sochic
                     </h1>
+                    @if (auth()->check()) 
                     @if(auth()->user()->tipo == 2)
                         <!-- Botones de navegación -->
                         <nav class="space-x-4">
@@ -30,6 +32,7 @@
                                 Categorías
                             </a>
                         </nav>
+                    @endif
                     @endif
                     <!-- Autenticar si el usuario esta autenticado-->
                     @auth
@@ -71,9 +74,22 @@
             @yield('contenido')
         </main>
 
-        <footer class="mt-10 text-center p-5 text-gray-500 font-bold uppercase">
-            Sochic - Todos los derechos reservados 
-            {{ now()->year }} <!-- agrega fecha --> 
+        <footer class="mt-10 text-center p-5 text-gray-500 font-bold uppercase flex justify-center items-center">
+            <p>Sochic - Todos los derechos reservados {{ now()->year }}</p>
+            <div class="flex  px-10 gap-6">
+                <a href="https://www.whatsapp.com/" target="_blank">
+                  <i class="fab fa-whatsapp text-gray-700"></i>
+                </a>
+                <a href="https://www.instagram.com/" target="_blank">
+                    <i class="fab fa-instagram text-gray-700"></i>
+                </a>
+                <a href="https://www.facebook.com/" target="_blank">
+                    <i class="fab fa-facebook-f text-gray-700"></i>
+                </a>
+                <a href="https://www.twitter.com/" target="_blank">
+                    <i class="fab fa-twitter text-gray-700"></i>
+                </a>
+            </div>
         </footer>
 
     </body>
