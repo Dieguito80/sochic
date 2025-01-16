@@ -9,6 +9,7 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\GestionController;
 
 
 /* Route::get('/', function () {
@@ -42,6 +43,18 @@ Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('pro
 // Eliminar un producto
 Route::delete('/productos/{id}', [ProductosController::class, 'destroy'])->name('productos.destroy');
 
+
+
+
+
+//rutas para gestion de pedidos
+/* Route::get('/gestion', [GestionController::class, 'index'])->name('gestion.index');
+Route::get('/gestion/create', [GestionController::class, 'create'])->name('gestion.create');
+Route::post('/gestion', [GestionController::class, 'store'])->name('gestion.store');
+Route::get('/gestion/{id}/edit', [GestionController::class, 'edit'])->name('gestion.edit');
+Route::put('/gestion/{id}', [GestionController::class, 'update'])->name('gestion.update');
+Route::delete('/gestion/{id}', [GestionController::class, 'destroy'])->name('gestion.destroy'); */
+Route::resource('gestion', GestionController::class);
 
 
 // Rutas para Categorías

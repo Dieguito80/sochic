@@ -31,6 +31,12 @@
                             class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                 Categorías
                             </a>
+
+                            <!-- Botón para Gestionar pedidos -->
+                            <a href="{{ route('gestion.index') }}" 
+                            class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                Gestion pedidos
+                            </a>
                         </nav>
                     @endif
                     @endif

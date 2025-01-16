@@ -16,7 +16,8 @@ class Carrito extends Model
      */
     protected $fillable = [
         'fecha_de_compra',
-        'user_id'
+        'user_id',
+        'estado'
     ];
 
     
@@ -31,9 +32,10 @@ class Carrito extends Model
         // Lógica para crear un carrito
     }
 
+    // Relación con Usuario
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

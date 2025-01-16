@@ -25,11 +25,11 @@ class User extends Authenticatable
         'tipo'
     ];
 
-     // Relación: Un usuario tiene muchos carritos
-     public function carritos()
-     {
-         return $this->hasMany(Carrito::class);
-     }
+    // Relación con Carrito
+    public function carritos()
+    {
+        return $this->hasMany(Carrito::class, 'user_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

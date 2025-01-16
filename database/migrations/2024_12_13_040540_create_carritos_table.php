@@ -17,6 +17,7 @@ class CreateCarritosTable extends Migration
         $table->id();
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relación con la tabla users
         $table->date('fecha_de_compra')->nullable();
+        $table->integer('estado')->nullable();
         $table->timestamps();
     });
 }
