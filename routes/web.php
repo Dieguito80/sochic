@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\CategoriasController;
@@ -61,9 +62,12 @@ route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 //vistas cliente
 
+route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+
 Route::get('/', [ProductosController::class, 'showCliente'])->name('productos.categoria');
 
 route::get('/{user:username}', [PostController::class,'index'])->name('Posts.index');
+
 
 
 

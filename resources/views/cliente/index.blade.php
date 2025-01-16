@@ -46,12 +46,15 @@
                     </div>
                 </div>
                 
-                <button 
+                {{-- <button 
                     class="mt-4 w-full bg-black text-white py-2 px-4 rounded-md flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
                     onclick="addToCart({{ $producto->id }})">
                     <i class="fas fa-shopping-cart w-4 h-4"></i>
                     Add to Cart
-                </button>
+                </button> --}}
+                <a href="{{ route('carrito.index') }}" class="btn btn-primary">
+                    Ir a la ruta
+                </a>
             </div>
         </div>
     @endforeach

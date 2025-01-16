@@ -16,7 +16,10 @@ class Carrito extends Model
      */
     protected $fillable = [
         'fecha_de_compra',
+        'user_id'
     ];
+
+    
 
     /**
      * Crear un nuevo carrito.
@@ -26,6 +29,11 @@ class Carrito extends Model
     public function crearCarrito()
     {
         // Lógica para crear un carrito
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
