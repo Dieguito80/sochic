@@ -66,7 +66,8 @@ Route::put('/categorias/{id}', [CategoriasController::class, 'update'])->name('c
 Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->name('categorias.destroy');
 
 
-
+// Ruta para agregar un producto al carrito
+Route::post('/carrito/{productoId}/agregar', [CarritoController::class, 'agregarAlCarrito'])->name('carrito.agregar');
 
 
 
@@ -76,6 +77,9 @@ route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 //vistas cliente
 
 route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+
+Route::delete('/carrito/eliminar/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+
 
 Route::get('/', [ProductosController::class, 'showCliente'])->name('productos.categoria');
 

@@ -26,10 +26,9 @@
     @foreach($productos as $producto)
         <div class="group relative bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
             <div class="aspect-square overflow-hidden">
-                <img 
-                    src="{{ $producto->imagen }}" 
-                    alt="{{ $producto->nombre }}" 
-                    class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
+                
+                <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}" class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
+
             </div>
             <div class="p-4">
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $producto->nombre }}</h3>
@@ -52,9 +51,11 @@
                     <i class="fas fa-shopping-cart w-4 h-4"></i>
                     Add to Cart
                 </button> --}}
-                <a href="{{ route('carrito.index') }}" class="btn btn-primary">
-                    Ir a la ruta
-                </a>
+                <form action="{{ route('carrito.agregar', $producto->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                </form>
+                
             </div>
         </div>
     @endforeach

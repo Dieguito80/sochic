@@ -27,9 +27,9 @@ class User extends Authenticatable
 
     // Relación con Carrito
     public function carritos()
-    {
-        return $this->hasMany(Carrito::class, 'user_id');
-    }
+{
+    return $this->belongsToMany(Producto::class, 'carrito_producto', 'usuario_id', 'producto_id');
+}
 
     /**
      * The attributes that should be hidden for serialization.

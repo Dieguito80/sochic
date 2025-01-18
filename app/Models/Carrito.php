@@ -72,7 +72,9 @@ class Carrito extends Model
     // Relación con productos (si un carrito contiene múltiples productos)
     public function productos()
     {
-        return $this->belongsToMany(Producto::class)->withPivot('cantidad');
+        return $this->belongsToMany(Producto::class, 'detalle_carritos')
+                    ->withPivot('cantidad', 'subtotal')
+                    ->withTimestamps();
     }
 
     // Relación con un usuario (si el carrito pertenece a un usuario específico)

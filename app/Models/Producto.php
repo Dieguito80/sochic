@@ -32,7 +32,9 @@ class Producto extends Model
     // Relación con carritos
     public function carritos()
     {
-        return $this->belongsToMany(Carrito::class)->withPivot('cantidad');
+        return $this->belongsToMany(Carrito::class, 'detalle_carritos')
+                    ->withPivot('cantidad', 'subtotal')
+                    ->withTimestamps();
     }
 
     public function detalleCarritos()

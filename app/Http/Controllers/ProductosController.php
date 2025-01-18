@@ -43,7 +43,12 @@ class ProductosController extends Controller
             'imagen' => 'image|mimes:jpeg,png,jpg|max:2048',
             'descripcion' => 'required|string',
         ]);
-    
+         // Manejo de la imagen
+    if ($request->hasFile('imagen')) {
+        $imagenPath = $request->file('imagen')->store('images', 'public');
+    }
+
+
         // $imagenPath = $request->imagen->store('productos', 'public');
         $imagenPath= '';
         Producto::create([
@@ -53,7 +58,7 @@ class ProductosController extends Controller
             'cantidad_stock' => $request->cantidad_stock,
             'imagen' => $imagenPath,
             'descripcion' => strip_tags($request->descripcion),
-            'categoria_id' => 1
+            'categoria_id' => $request->categoria_id,
         ]);
     
         return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');

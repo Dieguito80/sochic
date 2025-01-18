@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('contenido')
-  <div class="container mx-auto p-6 mt-4">
+  <div class="container mx-auto py-8">
     <h1 class="text-3xl font-bold mb-4">Administrar Productos</h1>
 
     <a href="{{ route('productos.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4">Agregar Producto</a>
@@ -38,13 +38,14 @@
                         @endif
                     </td>
                     <td class="py-2 px-4">
-                        <a href="{{ route('productos.edit', $producto->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg">Editar</a>
-    
-                        <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" class="inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Eliminar</button>
-                        </form>
+    <div class="flex gap-2">
+        <a href="{{ route('productos.edit', $producto->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg">Editar</a>
+
+        <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Eliminar</button>
+        </form>
                     </td>
                 </tr>
             @endforeach
