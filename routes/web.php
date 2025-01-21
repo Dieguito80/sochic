@@ -2,14 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\GestionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\CategoriasController;
-use App\Http\Controllers\GestionController;
 
 
 /* Route::get('/', function () {
@@ -70,9 +71,11 @@ Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->nam
 Route::post('/carrito/{productoId}/agregar', [CarritoController::class, 'agregarAlCarrito'])->name('carrito.agregar');
 
 
-
-
 route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+// Rutas para gestión de usuarios
+Route::resource('usuarios', \App\Http\Controllers\UserController::class);
+
 
 //vistas cliente
 

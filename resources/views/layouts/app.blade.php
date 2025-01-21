@@ -26,6 +26,12 @@
                     Productos
                 </a>
 
+                <!-- Botón para darle el Rol al usuario -->
+                <a href="{{ route('usuarios.index') }}" 
+                class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Asignar Rol
+                </a>
+
                 <!-- Botón para ir a Categorías -->
                 <a href="{{ route('categorias.index') }}" 
                 class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
