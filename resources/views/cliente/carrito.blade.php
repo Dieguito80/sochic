@@ -1,75 +1,88 @@
 @extends('layouts.app')
 
 @section('titulo')
-
     Mi carrito
-
 @endsection
 
 @section('contenido')
-    <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-        <div class="mx-auto max-w-3xl">
-            <div class="mt-8">
-                <ul class="space-y-4">
-                    @foreach ($productos as $producto)
-                        <li class="flex items-start gap-4">
-                            <!-- Imagen ajustada -->
-                            <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}" class="w-16 h-16 rounded object-cover">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Lista de productos -->
+        <div class="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            @foreach ($productos as $producto)
+                <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
+                    <!-- Imagen del producto -->
+                    <img src="{{ asset('storage/' . $producto->imagen) }}" 
+                         alt="{{ $producto->nombre }}" 
+                         class="rounded-lg object-cover h-48 w-full">
 
-                            <div>
-                                <h3 class="text-sm text-gray-900">{{ $producto->nombre }}</h3>
-                                <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
-                                    <div>
-                                        <dt class="inline">Price:</dt>
-                                        <dd class="inline">{{ $producto->precio_minorista }}</dd>
-                                    </div>
-                                </dl>
+                    <!-- Detalles del producto -->
+                    <div class="mt-4 flex flex-col flex-1">
+                        <h3 class="text-lg font-semibold text-gray-800">{{ $producto->nombre }}</h3>
+                        
+                        <!-- Precios -->
+                        <div class="mt-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">Precio:</span>
+                                <span class="text-lg text-green-600 font-bold">${{ number_format($producto->precio_minorista, 2) }}</span>
                             </div>
-
-                            <div class="flex flex-1 items-center justify-end gap-2">
-                                <form>
-                                    <label for="qty{{ $producto->id }}" class="sr-only">Quantity</label>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        value="{{ $producto->pivot->cantidad }}"  
-                                        id="qty{{ $producto->id }}"
-                                        class="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600"
-                                    />
-                                </form>
-
-                                <form action="{{ route('carrito.eliminar', $producto->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-gray-600 transition hover:text-red-600">
-                                        <span class="sr-only">Remove item</span>
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-sm text-gray-500">Mayorista:</span>
+                                <span class="text-lg text-blue-600 font-bold">${{ number_format($producto->precio_mayorista, 2) }}</span>
                             </div>
-                        </li>
-                    @endforeach
-                </ul>
-
-                <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
-                    <div class="w-screen max-w-lg space-y-4">
-                        <dl class="space-y-0.5 text-sm text-gray-700">
-                            <!-- Aquí puedes agregar la lógica para mostrar el total, IVA, etc. -->
-                        </dl>
-                        <div class="mt-8 flex justify-between items-center border-t border-gray-100 pt-8">
-                            <!-- Botón de Seguir Comprando -->
-                            <a href="{{ route('productos.categoria') }}" class="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600">
-                                Seguir comprando
-                            </a>
-                            
-                            <!-- Botón de Comprar -->
-                            <a href="#" class="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600">
-                                Comprar
-                            </a>
                         </div>
                     </div>
+
+                    <!-- Opciones (cantidad y eliminar) -->
+                    <div class="mt-4 flex justify-between items-center">
+                        <!-- Formulario para cantidad -->
+                        <form action="{{ route('carrito.actualizar', $producto->id) }}" method="POST" class="flex items-center">
+                            @csrf
+                            @method('PATCH')
+                            <label for="qty{{ $producto->id }}" class="sr-only">Cantidad</label>
+                            <input 
+                                type="number" 
+                                name="cantidad" 
+                                min="1" 
+                                value="{{ $producto->pivot->cantidad }}"  
+                                id="qty{{ $producto->id }}" 
+                                class="h-10 w-16 text-center border border-gray-300 rounded-md text-sm"
+                                onchange="this.form.submit()">
+                        </form>
+
+                        <!-- Botón para eliminar -->
+                        <form action="{{ route('carrito.eliminar', $producto->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt text-lg"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
+            @endforeach
+        </div>
+
+        <!-- Resumen del carrito -->
+        <div class="bg-gray-100 mt-8 rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Resumen del Pedido</h2>
+
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-gray-500">Subtotal:</span>
+                <span class="font-semibold text-gray-800">${{ number_format($total ?? 0, 2) }}</span>
             </div>
+
+            <!-- Botones de acción -->
+            <div class="mt-6 flex justify-between">
+                <a href="{{ route('productos.categoria') }}" 
+                   class="px-6 py-3 bg-gray-700 text-white text-sm rounded-md hover:bg-gray-600 transition">
+                    Seguir comprando
+                </a>
+                <a href="{{ route('formulario') }}" 
+                   class="px-6 py-3 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500 transition">
+                    Continuar compra
+                </a>
+            </div>
+            
         </div>
     </div>
 @endsection

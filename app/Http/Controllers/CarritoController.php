@@ -15,16 +15,36 @@ class CarritoController extends Controller
      */
     public function index()
     {
+        // Buscar el carrito del usuario autenticado
         $carrito = Carrito::where('user_id', Auth::id())->where('estado', 0)->first();
-
+    
+        // Si no hay carrito, asignamos un array vacío para productos
         if ($carrito) {
             $productos = $carrito->productos;
         } else {
             $productos = [];
         }
-
-        return view('cliente.carrito', compact('productos'));
+    
+        // Inicializamos el total
+        $total = 0;
+    
+        // Calculamos el total basado en los productos
+        foreach ($productos as $producto) {
+            $cantidad = $producto->pivot->cantidad;
+    
+            // Determinamos el precio (mayorista o minorista)
+            $precio = ($cantidad >= 5 && $producto->precio_mayorista)
+                      ? $producto->precio_mayorista
+                      : $producto->precio_minorista;
+    
+            // Sumamos al total
+            $total += $precio * $cantidad;
+        }
+    
+        // Pasamos los productos y el total a la vista
+        return view('cliente.carrito', compact('productos', 'total'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -69,10 +89,32 @@ class CarritoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy($productoId)
+{
+    // Verificar si el usuario está autenticado
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Debes iniciar sesión para realizar esta acción.');
     }
+
+    // Obtener el carrito activo del usuario autenticado
+    $carrito = Carrito::where('user_id', Auth::id())->where('estado', 0)->first();
+
+    if (!$carrito) {
+        return redirect()->route('carrito.index')->with('error', 'No se encontró un carrito activo.');
+    }
+
+    // Verificar si el producto está en el carrito
+    $productoEnCarrito = $carrito->productos()->where('producto_id', $productoId)->first();
+
+    if ($productoEnCarrito) {
+        // Eliminar el producto del carrito
+        $carrito->productos()->detach($productoId);
+
+        return redirect()->route('carrito.index')->with('success', 'Producto eliminado del carrito.');
+    }
+
+    return redirect()->route('carrito.index')->with('error', 'El producto no se encontró en el carrito.');
+}
 
     public function agregarAlCarrito($productoId)
     {
@@ -109,6 +151,69 @@ class CarritoController extends Controller
         return redirect()->route('carrito.index')->with('success', 'Producto agregado al carrito');
     }
 
+    public function carrito()
+    {
+        $productos = auth()->user()->carrito; // O la lógica para obtener los productos en el carrito
+    
+        $total = 0;
+    
+        foreach ($productos as $producto) {
+            $cantidad = $producto->pivot->cantidad;
+    
+            // Valida si usar precio mayorista o minorista
+            $precio = ($cantidad >= 5 && $producto->precio_mayorista) 
+                      ? $producto->precio_mayorista 
+                      : $producto->precio_minorista;
+    
+            $total += $precio * $cantidad;
+        }
+    
+        // Asegúrate de enviar $total a la vista
+        return view('carrito.index', compact('productos', 'total'));
+    }
+    
+
+    public function actualizarCantidad(Request $request, $productoId)
+    {
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para realizar esta acción.');
+        }
+    
+        // Validar la cantidad ingresada
+        $request->validate([
+            'cantidad' => 'required|integer|min:1',
+        ]);
+    
+        // Obtener el carrito activo del usuario
+        $carrito = Carrito::where('user_id', Auth::id())->where('estado', 0)->first();
+    
+        if (!$carrito) {
+            return redirect()->route('carrito.index')->with('error', 'No se encontró un carrito activo.');
+        }
+    
+        // Verificar si el producto está en el carrito
+        $productoEnCarrito = $carrito->productos()->where('producto_id', $productoId)->first();
+    
+        if ($productoEnCarrito) {
+            // Actualizar la cantidad y el subtotal
+            $cantidad = $request->input('cantidad');
+    
+            // Determinar si se aplica precio mayorista o minorista
+            $precio = ($cantidad >= 5 && $productoEnCarrito->precio_mayorista)
+                ? $productoEnCarrito->precio_mayorista
+                : $productoEnCarrito->precio_minorista;
+    
+            $productoEnCarrito->pivot->cantidad = $cantidad;
+            $productoEnCarrito->pivot->subtotal = $cantidad * $precio;
+            $productoEnCarrito->pivot->save();
+    
+            return redirect()->route('carrito.index')->with('success', 'Cantidad actualizada.');
+        }
+    
+        return redirect()->route('carrito.index')->with('error', 'El producto no se encontró en el carrito.');
+    }
+    
     
 
     /**

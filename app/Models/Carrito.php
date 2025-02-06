@@ -87,5 +87,20 @@ class Carrito extends Model
     {
         return $this->hasMany(DetalleCarrito::class);
     }
+
+    public function carrito()
+{
+    $productos = auth()->user()->carrito; // O la lógica para obtener los productos en el carrito
+
+    $total = 0;
+
+    foreach ($productos as $producto) {
+        $cantidad = $producto->pivot->cantidad;
+        $precio = ($cantidad >= 5) ? $producto->precio_mayorista : $producto->precio_minorista;
+        $total += $precio * $cantidad;
+    }
+
+    return view('carrito.index', compact('productos', 'total'));
+}
 }
 

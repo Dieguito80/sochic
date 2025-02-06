@@ -11,6 +11,7 @@ use App\Http\Controllers\GestionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\FormularioController;
 
 
 /* Route::get('/', function () {
@@ -76,12 +77,18 @@ route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 // Rutas para gestión de usuarios
 Route::resource('usuarios', \App\Http\Controllers\UserController::class);
 
+Route::get('/formulario', [FormularioController::class, 'index'])->name('formulario');
+Route::post('/formulario', [FormularioController::class, 'store'])->name('formulario.store');
+
 
 //vistas cliente
 
 route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
 
-Route::delete('/carrito/eliminar/{id}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+Route::patch('/carrito/{producto}', [CarritoController::class, 'actualizarCantidad'])->name('carrito.actualizar');
+
+Route::delete('/carrito/eliminar/{producto}', [CarritoController::class, 'destroy'])->name('carrito.eliminar');
+
 
 
 Route::get('/', [ProductosController::class, 'showCliente'])->name('productos.categoria');
