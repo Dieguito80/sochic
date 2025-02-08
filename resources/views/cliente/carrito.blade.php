@@ -77,7 +77,7 @@
                    class="px-6 py-3 bg-gray-700 text-white text-sm rounded-md hover:bg-gray-600 transition">
                     Seguir comprando
                 </a>
-                <a href="{{ route('formulario') }}" 
+                <a href="{{ route('formulario.index') }}" 
                    class="px-6 py-3 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500 transition">
                     Continuar compra
                 </a>

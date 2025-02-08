@@ -90,10 +90,15 @@ Route::patch('/carrito/{producto}', [CarritoController::class, 'actualizarCantid
 Route::delete('/carrito/eliminar/{producto}', [CarritoController::class, 'destroy'])->name('carrito.eliminar');
 
 
+Route::get('/formulario', [FormularioController::class, 'index'])->name('formulario.index');
+Route::post('/formulario', [FormularioController::class, 'store'])->name('formulario.store');
+
+
 
 Route::get('/', [ProductosController::class, 'showCliente'])->name('productos.categoria');
 
-route::get('/{user:username}', [PostController::class,'index'])->name('Posts.index');
+Route::get('/posts', [PostController::class, 'index'])->name('Posts.index');
+
 
 
 

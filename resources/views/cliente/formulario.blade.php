@@ -23,7 +23,7 @@
 
         <!-- Formulario -->
         <div class="w-full md:w-2/3 bg-white p-8 rounded-2xl">
-            <h1 class="text-2xl font-bold text-gray-900 mb-6 text-center">Formulario de datos personales</h1>
+            <h1 class="text-2xl font-bold text-gray-900 mb-6 text-center">Datos personales para el envio</h1>
             
             <!-- Botón para regresar a la página anterior -->
             <div class="mb-6 text-left">
@@ -34,7 +34,7 @@
                 </a>
             </div>
 
-            <form action="{{ route('formulario') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('formulario.index') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="grid gap-6 md:grid-cols-2">

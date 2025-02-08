@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Formulario;
 use Illuminate\Http\Request;
 
 class FormularioController extends Controller
@@ -13,23 +14,31 @@ class FormularioController extends Controller
 
     public function store(Request $request)
     {
-        // Lógica para manejar los datos del formulario
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
             'altura' => 'required|numeric',
-            'correo' => 'required|email|max:255',
+            'correo' => 'required|email|max:255|unique:formularios',
             'telefono' => 'required|string|max:15',
             'comprobante' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Ejemplo: guardar comprobante
-        if ($request->hasFile('comprobante')) {
-            $path = $request->file('comprobante')->store('comprobantes', 'public');
-        }
+        // Guardar el archivo en la carpeta "storage/app/public/comprobantes"
+        $path = $request->file('comprobante')->store('comprobantes', 'public');
 
-        // Redirige o muestra mensaje de éxito
-        return redirect()->route('formulario')->with('success', 'Formulario enviado correctamente');
+        // Guardar los datos en la base de datos
+        Formulario::create([
+            'nombre' => $validated['nombre'],
+            'apellido' => $validated['apellido'],
+            'direccion' => $validated['direccion'],
+            'altura' => $validated['altura'],
+            'correo' => $validated['correo'],
+            'telefono' => $validated['telefono'],
+            'comprobante_path' => $path,
+        ]);
+
+        return redirect()->route('formulario.index')->with('success', 'Formulario enviado correctamente');
     }
 }
+
