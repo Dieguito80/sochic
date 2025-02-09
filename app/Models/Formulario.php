@@ -15,7 +15,6 @@ class Formulario extends Model
         'nombre',
         'apellido',
         'direccion',
-        'altura',
         'correo',
         'telefono',
         'comprobante_path',

@@ -12,7 +12,6 @@ return new class extends Migration {
             $table->string('nombre');
             $table->string('apellido');
             $table->string('direccion');
-            $table->integer('altura');
             $table->string('correo')->unique();
             $table->string('telefono');
             $table->string('comprobante_path'); // Ruta del archivo comprobante
