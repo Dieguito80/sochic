@@ -17,7 +17,7 @@ class CarritoController extends Controller
     {
         // Buscar el carrito del usuario autenticado
         $carrito = Carrito::where('user_id', Auth::id())->where('estado', 0)->first();
-    
+        
         // Si no hay carrito, asignamos un array vacío para productos
         if ($carrito) {
             $productos = $carrito->productos;
@@ -43,6 +43,13 @@ class CarritoController extends Controller
     
         // Pasamos los productos y el total a la vista
         return view('cliente.carrito', compact('productos', 'total'));
+    }
+
+// Controlador
+    public function verHistorial()
+    {
+        $carritos = Carrito::where('user_id', auth()->id())->orderBy('fecha_de_compra', 'desc')->get();
+        return view('cliente.historialPedidos', compact('carritos'));
     }
     
 
@@ -90,31 +97,31 @@ class CarritoController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($productoId)
-{
-    // Verificar si el usuario está autenticado
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Debes iniciar sesión para realizar esta acción.');
+    {
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para realizar esta acción.');
+        }
+
+        // Obtener el carrito activo del usuario autenticado
+        $carrito = Carrito::where('user_id', Auth::id())->where('estado', 0)->first();
+
+        if (!$carrito) {
+            return redirect()->route('carrito.index')->with('error', 'No se encontró un carrito activo.');
+        }
+
+        // Verificar si el producto está en el carrito
+        $productoEnCarrito = $carrito->productos()->where('producto_id', $productoId)->first();
+
+        if ($productoEnCarrito) {
+            // Eliminar el producto del carrito
+            $carrito->productos()->detach($productoId);
+
+            return redirect()->route('carrito.index')->with('success', 'Producto eliminado del carrito.');
+        }
+
+        return redirect()->route('carrito.index')->with('error', 'El producto no se encontró en el carrito.');
     }
-
-    // Obtener el carrito activo del usuario autenticado
-    $carrito = Carrito::where('user_id', Auth::id())->where('estado', 0)->first();
-
-    if (!$carrito) {
-        return redirect()->route('carrito.index')->with('error', 'No se encontró un carrito activo.');
-    }
-
-    // Verificar si el producto está en el carrito
-    $productoEnCarrito = $carrito->productos()->where('producto_id', $productoId)->first();
-
-    if ($productoEnCarrito) {
-        // Eliminar el producto del carrito
-        $carrito->productos()->detach($productoId);
-
-        return redirect()->route('carrito.index')->with('success', 'Producto eliminado del carrito.');
-    }
-
-    return redirect()->route('carrito.index')->with('error', 'El producto no se encontró en el carrito.');
-}
 
     public function agregarAlCarrito($productoId)
     {

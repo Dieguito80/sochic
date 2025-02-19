@@ -9,16 +9,17 @@
         <!-- Lista de productos -->
         <div class="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
             @foreach ($productos as $producto)
+
                 <div class="bg-white rounded-lg shadow-lg p-4 flex flex-col">
                     <!-- Imagen del producto -->
-                    <img src="{{ asset('storage/' . $producto->imagen) }}" 
-                         alt="{{ $producto->nombre }}" 
+                    <img src="{{ asset('storage/' . $producto->imagen) }}"
+                         alt="{{ $producto->nombre }}"
                          class="rounded-lg object-cover h-48 w-full">
 
                     <!-- Detalles del producto -->
                     <div class="mt-4 flex flex-col flex-1">
                         <h3 class="text-lg font-semibold text-gray-800">{{ $producto->nombre }}</h3>
-                        
+
                         <!-- Precios -->
                         <div class="mt-2">
                             <div class="flex justify-between items-center">
@@ -39,12 +40,12 @@
                             @csrf
                             @method('PATCH')
                             <label for="qty{{ $producto->id }}" class="sr-only">Cantidad</label>
-                            <input 
-                                type="number" 
-                                name="cantidad" 
-                                min="1" 
-                                value="{{ $producto->pivot->cantidad }}"  
-                                id="qty{{ $producto->id }}" 
+                            <input
+                                type="number"
+                                name="cantidad"
+                                min="1"
+                                value="{{ $producto->pivot->cantidad }}"
+                                id="qty{{ $producto->id }}"
                                 class="h-10 w-16 text-center border border-gray-300 rounded-md text-sm"
                                 onchange="this.form.submit()">
                         </form>
@@ -73,16 +74,20 @@
 
             <!-- Botones de acción -->
             <div class="mt-6 flex justify-between">
-                <a href="{{ route('productos.categoria') }}" 
+                <a href="{{ route('productos.categoria') }}"
                    class="px-6 py-3 bg-gray-700 text-white text-sm rounded-md hover:bg-gray-600 transition">
                     Seguir comprando
                 </a>
-                <a href="{{ route('formulario.index') }}" 
+                <a href="{{ route('carritos.historial') }}"
+                   class="px-6 py-3 bg-gray-700 text-white text-sm rounded-md hover:bg-gray-600 transition">
+                    Historial compras
+                </a>
+                <a href="{{ route('envio.index' ) }}"
                    class="px-6 py-3 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500 transition">
                     Continuar compra
                 </a>
             </div>
-            
+
         </div>
     </div>
 @endsection

@@ -11,6 +11,7 @@ use App\Http\Controllers\GestionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\FormularioController;
 
 
@@ -70,6 +71,8 @@ Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->nam
 
 // Ruta para agregar un producto al carrito
 Route::post('/carrito/{productoId}/agregar', [CarritoController::class, 'agregarAlCarrito'])->name('carrito.agregar');
+route::get('/historial', [CarritoController::class, 'verHistorial'])->name('carritos.historial');
+route::get('/verhistorial', [CarritoController::class, 'verCarritoHistorial'])->name('carritos.ver');
 
 
 route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -77,9 +80,13 @@ route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 // Rutas para gestión de usuarios
 Route::resource('usuarios', \App\Http\Controllers\UserController::class);
 
-Route::get('/formulario', [FormularioController::class, 'index'])->name('formulario');
-Route::post('/formulario', [FormularioController::class, 'store'])->name('formulario.store');
 
+
+/* Route::get('/envio', [EnvioController::class, 'index'])->name('envio.index');
+Route::post('/envio', [EnvioController::class, 'store'])->name('envio.store');
+Route::post('/envio', [EnvioController::class, 'store'])->name('envio.store'); */
+Route::resource('envio', EnvioController::class);
+// Route::get('/formEnvio/{id}', [EnvioController::class, 'index'])->name('formEnvio.index');
 
 //vistas cliente
 
@@ -90,8 +97,6 @@ Route::patch('/carrito/{producto}', [CarritoController::class, 'actualizarCantid
 Route::delete('/carrito/eliminar/{producto}', [CarritoController::class, 'destroy'])->name('carrito.eliminar');
 
 
-Route::get('/formulario', [FormularioController::class, 'index'])->name('formulario.index');
-Route::post('/formulario', [FormularioController::class, 'store'])->name('formulario.store');
 
 
 

@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Formulario extends Model
+class envio extends Model
 {
     use HasFactory;
 
-    protected $table = 'formularios';
+    protected $table = 'envios';
 
     protected $fillable = [
+        'carrito_id',
         'nombre',
         'apellido',
         'direccion',

@@ -4,23 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up()
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        Schema::create('formularios', function (Blueprint $table) {
+        Schema::create('envios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('carrito_id')->constrained('carritos')->onDelete('cascade')->unique();
             $table->string('nombre');
             $table->string('apellido');
             $table->string('direccion');
-            $table->string('correo')->unique();
+            $table->string('correo');
             $table->string('telefono');
             $table->string('comprobante_path'); // Ruta del archivo comprobante
             $table->timestamps();
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('formularios');
+        Schema::dropIfExists('envios');
     }
 };

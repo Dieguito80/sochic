@@ -33,7 +33,7 @@
                 </a>
             </div>
 
-            <form action="{{ route('formulario.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('envio.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Nombre y Apellido -->
