@@ -37,32 +37,35 @@ class ProductosController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'precio_minorista' => 'required|numeric', // Precio para el público
-            'precio_mayorista' => 'required|numeric', // Precio para mayoristas
-            'cantidad_stock' => 'required|integer',
-            'imagen' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'descripcion' => 'required|string',
-        ]);
-         // Manejo de la imagen
-    if ($request->hasFile('imagen')) {
-        $imagenPath = $request->file('imagen')->store('images', 'public');
-    }
-
-
-        // $imagenPath = $request->imagen->store('productos', 'public');
-        $imagenPath= '';
-        Producto::create([
-            'nombre' => $request->nombre,
-            'precio_minorista' => $request->precio_minorista,
-            'precio_mayorista' => $request->precio_mayorista,
-            'cantidad_stock' => $request->cantidad_stock,
-            'imagen' => $imagenPath,
-            'descripcion' => strip_tags($request->descripcion),
-            'categoria_id' => $request->categoria_id,
+            'categoria_id' => 'required|exists:categorias,id',
+            'precio_minorista' => 'required|numeric|min:0',
+            'precio_mayorista' => 'required|numeric|min:0',
+            'cantidad_stock' => 'required|integer|min:0',
+            'descripcion' => 'nullable|string',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-        return redirect()->route('productos.index')->with('success', 'Producto creado exitosamente');
+        // Crear producto
+        $producto = new Producto();
+        $producto->nombre = $request->nombre;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->precio_minorista = $request->precio_minorista;
+        $producto->precio_mayorista = $request->precio_mayorista;
+        $producto->cantidad_stock = $request->cantidad_stock;
+        $producto->descripcion = $request->descripcion;
+    
+        // Guardar imagen si se sube una
+        if ($request->hasFile('imagen')) {
+            $path = $request->file('imagen')->store('images', 'public');
+            $producto->imagen = $path;
+        }
+    
+        $producto->save();
+    
+        return redirect()->route('productos.index')->with('success', 'Producto creado correctamente.');
     }
+    
+
    
     /**
      * Display the specified resource.

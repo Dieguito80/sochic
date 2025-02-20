@@ -17,6 +17,7 @@
                 <th class="py-2 px-4">Cantidad_stock</th>
                 <th class="py-2 px-4">Descripción</th>
                 <th class="py-2 px-4">Imagen</th>
+                <th class="py-2 px-4">Estado</th> <!-- Nueva columna para el estado -->
                 <th class="py-2 px-4">Acciones</th>
             </tr>
         </thead>
@@ -38,14 +39,20 @@
                         @endif
                     </td>
                     <td class="py-2 px-4">
-    <div class="flex gap-2">
-        <a href="{{ route('productos.edit', $producto->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg">Editar</a>
+                        @if($producto->cantidad_stock <= 0)
+                            <span class="text-red-500 font-bold">Publicación pausada</span>
+                        @endif
+                    </td>
+                    <td class="py-2 px-4">
+                        <div class="flex gap-2">
+                            <a href="{{ route('productos.edit', $producto->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg">Editar</a>
 
-        <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Eliminar</button>
-        </form>
+                            <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Eliminar</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @endforeach

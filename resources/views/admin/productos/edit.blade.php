@@ -6,7 +6,7 @@
 
   <form action="{{ route('productos.update', $producto->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
     @csrf
-    @method('PUT') {{-- Método PUT para actualizar --}}
+    @method('PUT')
     
     <div class="flex flex-col">
       <label for="nombre" class="text-sm font-medium mb-2">Nombre del Producto</label>
@@ -16,19 +16,19 @@
 
     <div class="flex flex-col">
       <label for="precio_minorista" class="text-sm font-medium mb-2">Precio Minorista</label>
-      <input type="number" name="precio_minorista" id="precio_minorista" value="{{ old('precio_minorista', $producto->precio_minorista) }}" required 
+      <input type="number" name="precio_minorista" id="precio_minorista" value="{{ old('precio_minorista', $producto->precio_minorista) }}" required min="0" 
         class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
     </div>
 
     <div class="flex flex-col">
       <label for="precio_mayorista" class="text-sm font-medium mb-2">Precio Mayorista</label>
-      <input type="number" name="precio_mayorista" id="precio_mayorista" value="{{ old('precio_mayorista', $producto->precio_mayorista) }}" required 
+      <input type="number" name="precio_mayorista" id="precio_mayorista" value="{{ old('precio_mayorista', $producto->precio_mayorista) }}" required min="0" 
         class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
     </div>
 
     <div class="flex flex-col">
       <label for="cantidad_stock" class="text-sm font-medium mb-2">Cantidad Stock</label>
-      <input type="number" name="cantidad_stock" id="cantidad_stock" value="{{ old('cantidad_stock', $producto->cantidad_stock) }}" required 
+      <input type="number" name="cantidad_stock" id="cantidad_stock" value="{{ old('cantidad_stock', $producto->cantidad_stock) }}" required min="0" 
         class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
     </div>
 
@@ -52,5 +52,11 @@
       Actualizar Producto
     </button>
   </form>
+  
+  @if ($producto->cantidad_stock <= 0)
+    <div class="mt-4 bg-yellow-200 text-yellow-800 p-4 rounded-md">
+      Publicación pausada.
+    </div>
+  @endif
 </div>
 @endsection

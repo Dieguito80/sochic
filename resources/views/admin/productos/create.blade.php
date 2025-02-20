@@ -24,19 +24,23 @@
 
 
     <div class="flex flex-col">
-      <label for="precio_minorista" class="text-sm font-medium mb-2">precio_minorista</label>
-      <input type="number" name="precio_minorista" id="precio_minorista" required class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
+      <label for="precio_minorista" class="text-sm font-medium mb-2">Precio Minorista</label>
+      <input type="number" name="precio_minorista" id="precio_minorista" required min="0" 
+        class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
     </div>
-
+    
     <div class="flex flex-col">
-      <label for="precio_mayorista" class="text-sm font-medium mb-2">precio_mayorista</label>
-      <input type="number" name="precio_mayorista" id="precio_mayorista" required class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
+      <label for="precio_mayorista" class="text-sm font-medium mb-2">Precio Mayorista</label>
+      <input type="number" name="precio_mayorista" id="precio_mayorista" required min="0" 
+        class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
     </div>
-
+    
     <div class="flex flex-col">
-      <label for="cantidad_stock" class="text-sm font-medium mb-2">Cantidad_stock</label>
-      <input type="number" name="cantidad_stock" id="cantidad_stock" required class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
+      <label for="cantidad_stock" class="text-sm font-medium mb-2">Cantidad Stock</label>
+      <input type="number" name="cantidad_stock" id="cantidad_stock" required min="0" 
+        class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
     </div>
+    
 
     <div class="flex flex-col">
       <label for="imagen" class="text-sm font-medium mb-2">Imagen</label>
