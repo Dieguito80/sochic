@@ -27,9 +27,9 @@ class User extends Authenticatable
 
     // Relación con Carrito
     public function carritos()
-{
-    return $this->belongsToMany(Producto::class, 'carrito_producto', 'usuario_id', 'producto_id');
-}
+    {
+        return $this->hasMany(Carrito::class, 'user_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,4 +50,5 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    
 }

@@ -158,4 +158,18 @@ class ProductosController extends Controller
         // Retornar la vista con los productos filtrados
         return view('cliente.index', compact('productos'));
     }
+
+    public function categoria(Request $request)
+    {
+        $search = $request->input('search');
+        $productos = Producto::query();
+
+        if ($search) {
+            $productos->where('nombre', 'LIKE', "%{$search}%");
+        }
+
+        $productos = $productos->get();
+
+        return view('cliente.productos', compact('productos'));
+    }
 }

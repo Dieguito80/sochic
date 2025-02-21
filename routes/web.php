@@ -60,6 +60,7 @@ Route::delete('/gestion/{id}', [GestionController::class, 'destroy'])->name('ges
 Route::resource('gestion', GestionController::class);
 
 
+
 // Rutas para Categorías
 Route::get('/categorias', [CategoriasController::class, 'index'])->name('categorias.index');
 Route::get('/categorias/create', [CategoriasController::class, 'create'])->name('categorias.create');
@@ -73,6 +74,9 @@ Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->nam
 Route::post('/carrito/{productoId}/agregar', [CarritoController::class, 'agregarAlCarrito'])->name('carrito.agregar');
 route::get('/historial', [CarritoController::class, 'verHistorial'])->name('carritos.historial');
 route::get('/verhistorial', [CarritoController::class, 'verCarritoHistorial'])->name('carritos.ver');
+
+Route::get('/carritos/{id}', [CarritoController::class, 'verCarrito'])->name('carritos.ver');
+
 
 
 route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

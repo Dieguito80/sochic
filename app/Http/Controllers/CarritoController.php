@@ -46,11 +46,15 @@ class CarritoController extends Controller
     }
 
 // Controlador
-    public function verHistorial()
-    {
-        $carritos = Carrito::where('user_id', auth()->id())->orderBy('fecha_de_compra', 'desc')->get();
-        return view('cliente.historialPedidos', compact('carritos'));
-    }
+public function verHistorial()
+{
+    $carritos = Carrito::where('user_id', auth()->id())
+        ->orderBy('fecha_de_compra', 'desc')
+        ->with('productos') // Cargar la relación de productos
+        ->get();
+    return view('cliente.historialPedidos', compact('carritos'));
+}
+    
     
 
     /**
