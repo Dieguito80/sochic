@@ -58,10 +58,7 @@
                                 <i class="fas fa-trash-alt text-lg"></i>
                             </button>
                         </form>
-                        <form action="{{ route('carrito.finalizar', $carrito->id) }}" method="POST">
-                            @csrf
-                            <button type="submit">Finalizar Pedido</button>
-                        </form>
+
                     </div>
                 </div>
             @endforeach

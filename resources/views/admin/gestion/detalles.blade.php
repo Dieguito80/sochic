@@ -54,7 +54,7 @@
         </table>
     </div>
 
-    <form action="{{ route('gestion.cambioEstado', $carrito[0]->id) }}" method="POST" class="mt-6 flex flex-col md:flex-row gap-4 items-center">
+    <form action="{{ route('gestion.cambioEstado', $carritoId) }}" method="POST" class="mt-6 flex flex-col md:flex-row gap-4 items-center">
         @csrf
         @method('PUT')
     

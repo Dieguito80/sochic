@@ -54,7 +54,7 @@ class GestionController extends Controller
     {
     // Obtener el carrito con productos y detalles adicionales
     $carrito = DetalleCarrito::where('carrito_id', $carritoId)->with('producto')->get();
-    
+
     // Obtener los detalles del producto para cada item en el carrito
     $carrito->each(function ($detalle) {
         $detalle->producto = $detalle->producto()->first();
@@ -66,7 +66,7 @@ class GestionController extends Controller
         // Buscar la información del envío usando el carrito_id
         $envio = envio::where('carrito_id', $carritoId)->first();
 
-        return view('admin.gestion.detalles', compact('carrito', 'envio', 'estadoCarrito'));
+        return view('admin.gestion.detalles', compact('carrito', 'envio', 'estadoCarrito', 'carritoId'));
     }
 
     /**
