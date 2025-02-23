@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carrito; // Importa el modelo Carrito
+use App\Models\DetalleCarrito;
+use App\Models\envio;
 use App\Models\User;    // Importa el modelo User si es necesario
 
 use Illuminate\Http\Request;
@@ -48,10 +50,23 @@ class GestionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(string $carritoId)
     {
-        $pedido = Carrito::with('detalleCarritos.producto', 'usuario')->findOrFail($id);
-        return view('admin.gestion.show', compact('pedido'));
+    // Obtener el carrito con productos y detalles adicionales
+    $carrito = DetalleCarrito::where('carrito_id', $carritoId)->with('producto')->get();
+    
+    // Obtener los detalles del producto para cada item en el carrito
+    $carrito->each(function ($detalle) {
+        $detalle->producto = $detalle->producto()->first();
+    });
+    // Obtener el estado del carrito
+    $estadoCarrito = Carrito::where('id', $carritoId)->value('estado');
+
+
+        // Buscar la información del envío usando el carrito_id
+        $envio = envio::where('carrito_id', $carritoId)->first();
+
+        return view('admin.gestion.detalles', compact('carrito', 'envio', 'estadoCarrito'));
     }
 
     /**
@@ -76,5 +91,14 @@ class GestionController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function cambiarEstado(Request $request, $id)
+    {
+        $carrito = Carrito::findOrFail($id);
+        $carrito->estado = $request->estado;
+        $carrito->save();
+    
+        return back()->with('success', 'Estado actualizado correctamente');
     }
 }

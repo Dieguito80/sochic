@@ -61,6 +61,8 @@ Route::get('/gestion/{id}/edit', [GestionController::class, 'edit'])->name('gest
 Route::put('/gestion/{id}', [GestionController::class, 'update'])->name('gestion.update');
 Route::delete('/gestion/{id}', [GestionController::class, 'destroy'])->name('gestion.destroy'); */
 Route::resource('gestion', GestionController::class);
+// Route::post('/gestionCambioEstado', [GestionController::class, 'cambiarEstado'])->name('gestion.cambioEstado');
+Route::put('/gestionCambioEstado/{id}', [GestionController::class, 'cambiarEstado'])->name('gestion.cambioEstado');
 
 
 
