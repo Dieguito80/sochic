@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CarritoController extends Controller
 {
@@ -223,6 +224,21 @@ public function verHistorial()
         }
     
         return redirect()->route('carrito.index')->with('error', 'El producto no se encontró en el carrito.');
+    }
+
+    public function finalizarPedido(Request $request, $carritoId)
+    {
+        $carrito = Carrito::findOrFail($carritoId);
+
+        // ... (lógica para procesar el pago y validar la información) ...
+
+        $carrito->fecha_de_compra = Carbon::now();
+        $carrito->estado = 1; // 1 significa "completado" (ajusta según tus estados)
+        $carrito->save();
+
+        // ... (otras acciones, como enviar correos electrónicos) ...
+
+        return redirect()->route('cliente.historialPedidos')->with('success', 'Pedido finalizado con éxito.');
     }
     
     

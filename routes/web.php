@@ -50,6 +50,9 @@ Route::delete('/productos/{id}', [ProductosController::class, 'destroy'])->name(
 
 
 
+
+
+
 //rutas para gestion de pedidos
 /* Route::get('/gestion', [GestionController::class, 'index'])->name('gestion.index');
 Route::get('/gestion/create', [GestionController::class, 'create'])->name('gestion.create');
@@ -58,6 +61,7 @@ Route::get('/gestion/{id}/edit', [GestionController::class, 'edit'])->name('gest
 Route::put('/gestion/{id}', [GestionController::class, 'update'])->name('gestion.update');
 Route::delete('/gestion/{id}', [GestionController::class, 'destroy'])->name('gestion.destroy'); */
 Route::resource('gestion', GestionController::class);
+
 
 
 // Rutas para Categorías
@@ -95,6 +99,8 @@ route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index
 Route::patch('/carrito/{producto}', [CarritoController::class, 'actualizarCantidad'])->name('carrito.actualizar');
 
 Route::delete('/carrito/eliminar/{producto}', [CarritoController::class, 'destroy'])->name('carrito.eliminar');
+
+Route::post('/carrito/{id}/finalizar', [CarritoController::class, 'finalizarPedido'])->name('carrito.finalizar');
 
 
 

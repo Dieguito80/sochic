@@ -12,7 +12,10 @@ class Carrito extends Model
     protected $fillable = [
         'fecha_de_compra',
         'user_id',
-        'estado'
+        'estado',
+        'direccion',
+        'telefono',
+        'comprobante'
     ];
 
     public function user()

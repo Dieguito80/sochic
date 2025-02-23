@@ -162,26 +162,40 @@ class ProductosController extends Controller
 
 
 
-    public function showCliente()
+    public function showCliente(Request $request)
     {
-        // Obtener los productos que pertenecen a la categoría especificada
-        // $productos = Producto::where('categoria_id', $id)->get();
-        $productos = Producto::all();
-        // Retornar la vista con los productos filtrados
-        return view('cliente.index', compact('productos'));
+        $categoriaId = $request->input('categoria_id');
+        $search = $request->input('search');
+
+        $productos = Producto::when($categoriaId, function ($query, $categoriaId) {
+            return $query->where('categoria_id', $categoriaId);
+        })
+        ->when($search, function ($query, $search) {
+            return $query->where('nombre', 'like', '%' . $search . '%');
+        })
+        ->get();
+
+        $categorias = Categoria::all();
+
+        return view('cliente.index', compact('productos', 'categorias'));
     }
 
     public function categoria(Request $request)
     {
+        $categoriaId = $request->input('categoria_id');
         $search = $request->input('search');
-        $productos = Producto::query();
 
-        if ($search) {
-            $productos->where('nombre', 'LIKE', "%{$search}%");
-        }
+        $productos = Producto::when($categoriaId, function ($query, $categoriaId) {
+            return $query->where('categoria_id', $categoriaId);
+        })
+        ->when($search, function ($query, $search) {
+            return $query->where('nombre', 'like', '%' . $search . '%');
+        })
+        ->get();
 
-        $productos = $productos->get();
+        $categorias = Categoria::all();
 
-        return view('cliente.productos', compact('productos'));
+        return view('cliente.index', compact('productos', 'categorias'));
     }
+
 }

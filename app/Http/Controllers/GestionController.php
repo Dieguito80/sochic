@@ -48,9 +48,10 @@ class GestionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $pedido = Carrito::with('detalleCarritos.producto', 'usuario')->findOrFail($id);
+        return view('admin.gestion.show', compact('pedido'));
     }
 
     /**
