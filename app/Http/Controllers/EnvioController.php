@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
 
-use App\Models\Carrito;
-use App\Models\envio;
-use Auth;
+namespace App\Http\Controllers; // Asegúrate de que el namespace sea correcto
+
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth; // Importar la clase Auth
+use App\Models\Carrito; // Asegúrate de que la ruta al modelo Carrito sea correcta
+use App\Models\Envio; // Asegúrate de que la ruta al modelo Envio sea correcta
 class EnvioController extends Controller
 {
     /**
@@ -18,9 +18,23 @@ class EnvioController extends Controller
     }
 
     public function store(Request $request)
-    { 
+    {
+        // Verificar la autenticación del usuario
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Debes iniciar sesión para realizar esta acción.');
+        }
+
+        // Obtener el carrito del usuario
         $carrito = Carrito::where('user_id', Auth::id())->where('estado', 0)->first();
+
+        // Verificar si el carrito existe
+        if (!$carrito) {
+            return redirect()->back()->with('error', 'No se encontró un carrito activo.');
+        }
+
         $carritoId = $carrito->id;
+
+        // Validar los datos del formulario
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
@@ -34,7 +48,7 @@ class EnvioController extends Controller
         $path = $request->file('comprobante')->store('comprobantes', 'public');
 
         // Guardar los datos en la base de datos
-        envio::create([
+        Envio::create([
             'nombre' => $validated['nombre'],
             'carrito_id' => $carritoId,
             'apellido' => $validated['apellido'],
@@ -44,11 +58,13 @@ class EnvioController extends Controller
             'comprobante_path' => $path,
         ]);
 
+        // Actualizar el estado del carrito
         $categoria = Carrito::findOrFail($carritoId);
         $categoria->update([
             'estado' => 1,
         ]);
 
+        // Redirigir con un mensaje de éxito
         return redirect()->route('carrito.index')->with('success', 'Formulario enviado correctamente');
     }
 

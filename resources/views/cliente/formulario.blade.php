@@ -36,7 +36,7 @@
             <form action="{{ route('envio.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <!-- Nombre y Apellido -->
+                <!-- Nombre y Apellido -->z
                 <div class="grid gap-6 md:grid-cols-2">
                     <div>
                         <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>

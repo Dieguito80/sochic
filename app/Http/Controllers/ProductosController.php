@@ -12,12 +12,24 @@ class ProductosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index(Request $request)
     {
-        $productos = Producto::all();
-        $categorias = Categoria::all();
-        // dd($productos);
-        // Pasar los datos a la vista
+        $categorias = Categoria::all(); // Obtener todas las categorías
+
+        $productos = Producto::query();
+
+        // Filtrar por categoría
+        if ($request->has('categoria_id') && $request->categoria_id != '') {
+            $productos->where('categoria_id', $request->categoria_id);
+        }
+
+        // Filtrar por término de búsqueda (nombre del producto)
+        if ($request->has('search') && $request->search != '') {
+            $productos->where('nombre', 'like', '%' . $request->search . '%');
+        }
+
+        $productos = $productos->get(); // Obtener los resultados
+
         return view('admin.productos.index', compact('productos', 'categorias'));
     }
 

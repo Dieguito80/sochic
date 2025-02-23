@@ -12,12 +12,19 @@ class GestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener todos los carritos con los datos del usuario asociado
-        $pedidos = Carrito::with('user')->get();
-    
-        // Retornar a la vista con los datos
+        $pedidos = Carrito::query();
+
+        // Filtrar por nombre de usuario
+        if ($request->has('search') && $request->search != '') {
+            $pedidos->whereHas('user', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $pedidos = $pedidos->get();
+
         return view('admin.gestion.index', compact('pedidos'));
     }
     
