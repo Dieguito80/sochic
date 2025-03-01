@@ -10,37 +10,19 @@ class Pedido extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'orden_de_compra',
         'estado_de_envio',
     ];
 
-    /**
-     * Confirmar el pedido.
-     *
-     * @return void
-     */
     public function confirmarPedido()
     {
-        // Lógica para confirmar el pedido
         $this->estado_de_envio = 'Confirmado';
         $this->save();
     }
 
-    /**
-     * Enviar un email al cliente con los detalles de la compra.
-     *
-     * @param string $email
-     * @return void
-     */
     public function enviarEmailCompra($email)
     {
-        // Ejemplo de cómo enviar un correo utilizando Mailable
         Mail::to($email)->send(new \App\Mail\PedidoConfirmado($this));
     }
 
@@ -54,9 +36,17 @@ class Pedido extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function detallePedidos()
+    
+
+    public function productos()
     {
-        return $this->hasMany(DetallePedido::class);
+        return $this->belongsToMany(Producto::class, 'detalle_pedidos')
+                    ->withPivot('cantidad', 'precio')
+                    ->withTimestamps();
+    }
+
+    public function tieneProductos()
+    {
+        return $this->productos()->exists();
     }
 }
-

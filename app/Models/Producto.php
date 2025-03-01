@@ -29,6 +29,12 @@ class Producto extends Model
         return $this->belongsTo(Categoria::class);
     }
 
+    // Relación con pedidos
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
+    }
+
     // Relación con carritos
     public function carritos()
     {
@@ -41,5 +47,10 @@ class Producto extends Model
     {
         return $this->hasMany(DetalleCarrito::class);
     }
-}
 
+    // Relación con envíos
+    public function envios()
+    {
+        return $this->hasMany(Envio::class);
+    }
+}

@@ -20,14 +20,16 @@ use App\Http\Controllers\FormularioController;
 }); */
 
 
-//registro
-Route::get('/register', [RegisterController::class, 'index'])->name('register'); // para visitar en sitio web
-Route::post('/register', [RegisterController::class, 'store']); //envia datos al servidor formulario de registro
+// Registro
+Route::middleware(['guest'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'index'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store']);
+});
 
-//login
-route::get('/login', [LoginController::class,'index'])->name('login');
-route::post('/login', [LoginController::class,'store']);
-route::post('/logout', [LogoutController::class,'store'])->name('logout');
+// Login
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'store']);
+Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
 
 

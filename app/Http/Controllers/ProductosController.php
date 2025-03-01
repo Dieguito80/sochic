@@ -152,13 +152,19 @@ class ProductosController extends Controller
     {
         // Buscar el producto por su ID
         $producto = Producto::findOrFail($id);
-
+    
+        // Verificar si el producto está en la tabla de envíos
+        if ($producto->envios()->exists()) {
+            return redirect()->route('productos.index')->with('error', 'No se puede eliminar el producto porque está asociado a envíos.');
+        }
+    
         // Eliminar el producto
         $producto->delete();
-
+    
         // Redireccionar con mensaje de éxito
         return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente');
     }
+    
 
 
 

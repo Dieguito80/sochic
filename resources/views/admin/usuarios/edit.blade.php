@@ -36,8 +36,8 @@
     <div class="flex flex-col">
       <label for="tipo" class="text-sm font-medium mb-2">Tipo de Usuario</label>
       <select name="tipo" id="tipo" required class="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-blue-500 focus:ring-1">
-        <option value="admin" {{ old('tipo', $usuario->tipo) === 'admin' ? 'selected' : '' }}>Admin</option>
-        <option value="user" {{ old('tipo', $usuario->tipo) === 'user' ? 'selected' : '' }}>Usuario</option>
+        <option value="2" {{ old('tipo', $usuario->tipo) == 2 ? 'selected' : '' }}>Administrador</option>
+        <option value="1" {{ old('tipo', $usuario->tipo) == 1 ? 'selected' : '' }}>Usuario</option>
       </select>
     </div>
 

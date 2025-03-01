@@ -4,6 +4,18 @@
     <div class="container mx-auto py-8">
         <h1 class="text-3xl font-bold mb-4">Administrar Productos</h1>
 
+        @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded-lg mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="flex justify-between items-center mb-4">
             <a href="{{ route('productos.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Agregar Producto</a>
             <form action="{{ route('productos.index') }}" method="GET" class="flex justify-end">
@@ -27,10 +39,10 @@
                 <tr class="text-left bg-gray-100">
                     <th class="py-2 px-4">ID</th>
                     <th class="py-2 px-4">Nombre</th>
-                    <th class="py-2 px-4">Categoria</th>
+                    <th class="py-2 px-4">Categoría</th>
                     <th class="py-2 px-4">Precio Minorista</th>
                     <th class="py-2 px-4">Precio Mayorista</th>
-                    <th class="py-2 px-4">Cantidad_stock</th>
+                    <th class="py-2 px-4">Cantidad Stock</th>
                     <th class="py-2 px-4">Descripción</th>
                     <th class="py-2 px-4">Imagen</th>
                     <th class="py-2 px-4">Estado</th>
@@ -57,6 +69,8 @@
                         <td class="py-2 px-4">
                             @if($producto->cantidad_stock <= 0)
                                 <span class="text-red-500 font-bold">Publicación pausada</span>
+                            @else
+                                <span class="text-green-500">Disponible</span>
                             @endif
                         </td>
                         <td class="py-2 px-4">
@@ -65,7 +79,10 @@
                                 <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Eliminar</button>
+                                    <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg btn-eliminar"
+                                        data-producto-id="{{ $producto->id }}">
+                                            Eliminar
+                                    </button>
                                 </form>
                             </div>
                         </td>
@@ -74,4 +91,37 @@
             </tbody>
         </table>
     </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const botonesEliminar = document.querySelectorAll('.btn-eliminar');
+        
+                botonesEliminar.forEach(boton => {
+                    boton.addEventListener('click', function() {
+                        const productoId = this.dataset.productoId;
+        
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: '¿Deseas eliminar este producto?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sí, eliminar',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Enviar formulario de eliminación
+                                const form = document.createElement('form');
+                                form.action = `/productos/${productoId}`; // Ajusta la URL según tu ruta
+                                form.method = 'POST';
+                                form.innerHTML = `<input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="hidden" name="_method" value="DELETE">`;
+                                document.body.appendChild(form);
+                                form.submit();
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
 @endsection

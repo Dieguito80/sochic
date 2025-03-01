@@ -9,7 +9,7 @@ class envio extends Model
 {
     use HasFactory;
 
-    protected $table = 'envios';
+    protected $table = 'envios'; // Se mantiene explícitamente por el nombre en minúsculas
 
     protected $fillable = [
         'carrito_id',
@@ -20,4 +20,12 @@ class envio extends Model
         'telefono',
         'comprobante_path',
     ];
+
+    /**
+     * Relación con el carrito.
+     */
+    public function carrito()
+    {
+        return $this->belongsTo(Carrito::class);
+    }
 }

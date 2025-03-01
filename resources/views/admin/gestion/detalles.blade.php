@@ -37,6 +37,7 @@
         <table class="w-full table-auto border border-gray-300 rounded-lg shadow-sm">
             <thead class="bg-gray-100">
                 <tr>
+                    <th class="border px-4 py-3 text-left text-gray-700">Imagen</th>
                     <th class="border px-4 py-3 text-left text-gray-700">Producto</th>
                     <th class="border px-4 py-3 text-left text-gray-700">Cantidad</th>
                     <th class="border px-4 py-3 text-left text-gray-700">Subtotal</th>
@@ -45,6 +46,15 @@
             <tbody class="bg-white">
                 @foreach ($carrito as $detalle)
                     <tr class="border-b hover:bg-gray-50 transition">
+                        <td class="border px-4 py-3">
+                            @if ($detalle->producto->imagen)
+                                <img src="{{ asset('storage/' . $detalle->producto->imagen) }}" 
+                                    alt="{{ $detalle->producto->nombre }}" 
+                                    class="h-16 w-16 object-cover rounded-lg">
+                            @else
+                                <span class="text-gray-400">Sin imagen</span>
+                            @endif
+                        </td>
                         <td class="border px-4 py-3 text-gray-800">{{ $detalle->producto->nombre }}</td>
                         <td class="border px-4 py-3 text-gray-800">{{ $detalle->cantidad }}</td>
                         <td class="border px-4 py-3 text-gray-800 font-semibold">${{ number_format($detalle->subtotal, 2) }}</td>
@@ -68,6 +78,4 @@
         </select>
     </form>
 </div>
-
-
 @endsection

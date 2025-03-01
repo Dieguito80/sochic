@@ -26,7 +26,7 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'tipo' => 'required|string',
+            'tipo' => 'required|in:1,2',
         ]);
 
         User::create([
@@ -34,7 +34,7 @@ class UserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'tipo' => $request->tipo,
+            'tipo' => (int) $request->tipo,
         ]);
 
         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado correctamente.');
@@ -60,7 +60,7 @@ class UserController extends Controller
             $usuario->update(['password' => Hash::make($request->password)]);
         }
 
-        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
     public function destroy(User $usuario)
