@@ -27,7 +27,14 @@
         <div>
             <p class="text-gray-700"><strong class="font-semibold">Dirección:</strong> {{ $envio->direccion }}</p>
             <p class="text-gray-700"><strong class="font-semibold">Teléfono:</strong> {{ $envio->telefono }}</p>
-            <p class="text-gray-700"><strong class="font-semibold">Comprobante:</strong> {{ $envio->comprobante }}</p>
+            <p class="text-gray-700 flex items-center">
+                <strong class="font-semibold mr-2">Comprobante:</strong>
+                @if ($envio->comprobante_path)
+                    <a href="{{ asset('storage/' . $envio->comprobante_path) }}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Ver Imagen</a>
+                @else
+                    <span class="text-gray-500">No disponible</span>
+                @endif
+            </p>
         </div>
     </div>
 
@@ -49,8 +56,8 @@
                         <td class="border px-4 py-3">
                             @if ($detalle->producto->imagen)
                                 <img src="{{ asset('storage/' . $detalle->producto->imagen) }}" 
-                                    alt="{{ $detalle->producto->nombre }}" 
-                                    class="h-16 w-16 object-cover rounded-lg">
+                                     alt="{{ $detalle->producto->nombre }}" 
+                                     class="h-16 w-16 object-cover rounded-lg">
                             @else
                                 <span class="text-gray-400">Sin imagen</span>
                             @endif
