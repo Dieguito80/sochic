@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
 class RegisterController extends Controller
 {
     //
-    public function index() 
+    public function index()
     {
+        // Verificar si el usuario ya está autenticado
+        if (Auth::check()) {
+            return redirect('/home'); // O la ruta que prefieras
+        }
 
-        return view('auth.register');
-
+        return view('auth.register'); // O la vista de registro que uses
     }
 
     public function store(Request $request)

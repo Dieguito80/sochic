@@ -154,7 +154,7 @@ class ProductosController extends Controller
         $producto = Producto::findOrFail($id);
     
         // Verificar si el producto está en la tabla de envíos
-        if ($producto->envios()->exists()) {
+        if ($producto->detalleCarritos()->exists()) {
             return redirect()->route('productos.index')->with('error', 'No se puede eliminar el producto porque está asociado a envíos.');
         }
     
