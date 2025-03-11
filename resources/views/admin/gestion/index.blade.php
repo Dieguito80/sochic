@@ -33,7 +33,13 @@
                         <tr>
                             <td class="border border-gray-300 px-4 py-2">{{ $pedido->id }}</td>
                             <td class="border border-gray-300 px-4 py-2">{{ $pedido->user->name }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $pedido->fecha_de_compra }}</td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                @if ($pedido->created_at)
+                                    {{ $pedido->created_at->format('d/m/Y H:i') }}
+                                @else
+                                    Sin fecha
+                                @endif
+                            </td>
                             <td class="border border-gray-300 px-4 py-2">{{ $pedido->estado }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 <a href="{{ route('gestion.show', $pedido->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
