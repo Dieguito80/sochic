@@ -88,6 +88,8 @@ route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 // Rutas para gestión de usuarios
 Route::resource('usuarios', \App\Http\Controllers\UserController::class);
 
+Route::resource('usuarios', \App\Http\Controllers\UserController::class)->middleware('auth');
+
 
 
 /* Route::get('/envio', [EnvioController::class, 'index'])->name('envio.index');
