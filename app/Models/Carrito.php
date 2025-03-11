@@ -18,6 +18,11 @@ class Carrito extends Model
         'comprobante'
     ];
 
+    public function envio()
+{
+    return $this->hasOne(Envio::class);
+}
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

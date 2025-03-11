@@ -34,13 +34,30 @@
                             <td class="border border-gray-300 px-4 py-2">{{ $pedido->id }}</td>
                             <td class="border border-gray-300 px-4 py-2">{{ $pedido->user->name }}</td>
                             <td class="border border-gray-300 px-4 py-2">
-                                @if ($pedido->created_at)
-                                    {{ $pedido->created_at->format('d/m/Y H:i') }}
+                                @if ($pedido->envio && $pedido->envio->created_at)
+                                    {{ $pedido->envio->created_at->format('d/m/Y H:i') }}
                                 @else
-                                    Sin fecha
+                                    Sin fecha de envío
                                 @endif
                             </td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $pedido->estado }}</td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                @php
+                                    $estadoCarrito = $pedido->estado; // Asumiendo que $pedido->estado contiene el número de estado
+                                @endphp
+                                <span class="px-3 py-1 rounded-md text-white text-sm font-semibold
+                                    {{ $estadoCarrito == 1 ? 'bg-yellow-500' : '' }}
+                                    {{ $estadoCarrito == 2 ? 'bg-green-500' : '' }}
+                                    {{ $estadoCarrito == 3 ? 'bg-blue-500' : '' }}
+                                    {{ $estadoCarrito == 4 ? 'bg-red-500' : '' }}">
+                                    @switch($estadoCarrito)
+                                        @case(1) Comprado @break
+                                        @case(2) Aprobado @break
+                                        @case(3) Enviado @break
+                                        @case(4) Rechazado @break
+                                        @default Desconocido
+                                    @endswitch
+                                </span>
+                            </td>
                             <td class="border border-gray-300 px-4 py-2 text-center">
                                 <a href="{{ route('gestion.show', $pedido->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     Ver Detalles

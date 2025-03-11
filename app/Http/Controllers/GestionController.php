@@ -16,17 +16,17 @@ class GestionController extends Controller
      */
     public function index(Request $request)
     {
-        $pedidos = Carrito::query();
-
-        // Filtrar por nombre de usuario
+        $pedidos = Carrito::query()
+            ->with(['envio', 'user']); // Asegúrate de que 'user' esté aquí si lo necesitas
+    
         if ($request->has('search') && $request->search != '') {
             $pedidos->whereHas('user', function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             });
         }
-
+    
         $pedidos = $pedidos->get();
-
+    
         return view('admin.gestion.index', compact('pedidos'));
     }
     

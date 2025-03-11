@@ -28,7 +28,10 @@ class DetalleCarrito extends Model
     {
         return $this->belongsTo(Carrito::class);
     }
-
+    public function envio()
+    {
+        return $this->belongsTo(envio::class);
+    }
     /**
      * Relación con el modelo Producto.
      */
